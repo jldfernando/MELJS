@@ -1,0 +1,147 @@
+# Python
+############
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class  # Jython
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to avoid stating a specific path
+# for each file.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook files
+#########################
+.ipynb_checkpoints/
+.jupyter_workspace/
+*.ipynb_checkpoints/
+.ipynb_metadata/
+nbconvert_config.py
+
+# Data files (IMPORTANT!)
+#########################
+# Generally, you should NOT commit raw or large processed data files to Git.
+# Version control for data is a separate, more complex topic (e.g., DVC, Git LFS).
+# Small sample data for testing or demonstration might be an exception.
+data/
+data/*
+!data/.gitkeep  # Keep the directory structure if desired
+raw_data/
+processed_data/
+external_data/
+notebooks/data/ # if you store data directly inside notebooks folder
+
+# Output files
+###############
+results/
+figures/
+plots/
+reports/
+models/
+*.csv
+*.tsv
+*.xlsx
+*.parquet
+*.feather
+*.pkl
+*.pickle
+*.hdf5
+*.h5
+*.joblib
+*.npy
+*.npz
+# *.txt  # Be careful with this, might need to include some .txt files
+
+# Virtual Environments
+######################
+# Standard venv
+venv/
+.venv/
+
+# Conda environments
+.conda/
+.env/
+
+# Poetry
+.venv_poetry/ # or whatever name Poetry uses for its venv inside the project
+pdm.lock
+.pdm-build/
+
+# IDE specific files
+###################
+.idea/                     # IntelliJ IDEA / PyCharm
+.vscode/                   # VS Code
+*.iml
+*.iws
+*.ipr
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# Operating System files
+########################
+.DS_Store                  # macOS
+.Trashes                   # macOS
+ehthumbs.db                # Windows
+Thumbs.db                  # Windows
+Desktop.ini                # Windows
+*.swp                      # Vim swap files
+*~                         # Emacs backup files
+
+# Environment variables / Configuration (sensitive info)
+#######################################################
+.env
+.flaskenv
+config.ini
+config.py  # If it contains sensitive info not meant for repo
+credentials.json
+api_keys.py
+
+# Logs
+#######
+*.log
