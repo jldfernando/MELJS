@@ -66,10 +66,13 @@ nbconvert_config.py
 # Generally, you should NOT commit raw or large processed data files to Git.
 # Version control for data is a separate, more complex topic (e.g., DVC, Git LFS).
 # Small sample data for testing or demonstration might be an exception.
-data/
 data/*
 !data/.gitkeep  # Keep the directory structure if desired
-raw_data/
+
+!data/raw_data/
+data/raw_data/*
+!data/raw_data/.gitkeep
+
 processed_data/
 external_data/
 notebooks/data/ # if you store data directly inside notebooks folder
