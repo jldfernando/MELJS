@@ -10,5 +10,3 @@ MELJS' UA&amp;P x Eskwelabs Hackathon Repository
 1. Create or activate the virtual environment or conda environment
 2. If using venv, run 'pip install -r requirements.txt'
 3. If using conda, run 'conda env update -f environment.yaml'
-
-Hello World, this is Josh showing Michael how github works
