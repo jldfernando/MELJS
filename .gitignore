@@ -73,7 +73,10 @@ data/*
 data/raw_data/*
 !data/raw_data/.gitkeep
 
-processed_data/
+!data/processed_data/
+data/processed_data/*
+!data/processed_data/.gitkeep
+
 external_data/
 notebooks/data/ # if you store data directly inside notebooks folder
 
