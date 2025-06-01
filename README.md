@@ -10,3 +10,9 @@ MELJS' UA&amp;P x Eskwelabs Hackathon Repository
 1. Create or activate the virtual environment or conda environment
 2. If using venv, run 'pip install -r requirements.txt'
 3. If using conda, run 'conda env update -f environment.yaml'
+
+### Notes on Final Data:
+- only kept the top 45 countries from the raw imports data which is about 95.6% of the data
+- used an approximate seadistance from the CERDI sea distance database
+- for the tariff rates, it was simplified to the mfn_ad_valorem rate of the first hts8 code that matches the hs code that for all countries. 
+- disregarded the month in the data. tariff rates were taken from the US 2024, however the wgi indicators were from 2023
