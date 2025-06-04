@@ -72,11 +72,11 @@ else:
 
     # Weighted score (lower is better)
     alt_scores["Score"] = (
-        alt_scores["TEU shipments_n"] * w_teu +
-        alt_scores["Tariff Rate_n"] * w_tariff +
-        alt_scores["Transit Days_n"] * w_ship_time +
-        alt_scores["WGI average_n"] * w_wgi
-    )
+        alt_scores["TEU shipments_n"] * w_teu 
+        - alt_scores["Tariff Rate_n"] * w_tariff 
+        - alt_scores["Transit Days_n"] * w_ship_time
+        + alt_scores["WGI average_n"] * w_wgi
+    )*100
 
     top_alts = alt_scores[['origin_country','TEU shipments','Tariff Rate','Transit Days','WGI average','Score']].sort_values("Score", ascending=False).head(5)
     st.dataframe(top_alts)
