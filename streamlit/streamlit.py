@@ -13,7 +13,7 @@ def load_data():
 
 df = load_data()
 
-st.title("Tariff Impact & Alternative Sourcing Recommendation Engine")
+st.title("Alternative Sourcing Recommendation Engine")
 
 # --- Sidebar Inputs ---
 st.sidebar.header("Current Supply Parameters")
@@ -21,10 +21,10 @@ selected_hs_code = st.sidebar.selectbox("Select HS Code", df["hs_code"].sort_val
 selected_origin = st.sidebar.selectbox("Select Current Origin Country", df["origin_country"].sort_values().unique())
 base_cost = st.sidebar.number_input("Base cost per TEU", step=100, value=1000)
 st.sidebar.header("Weights for alternative scoring")
-w_teu = st.sidebar.number_input('TEU shipments', min_value=0.0, max_value=1.0, value=0.25)
-w_tariff = st.sidebar.number_input('Tariff Rate', min_value=0.0, max_value=1.0, value=0.25)
-w_ship_time = st.sidebar.number_input('Transit Time', min_value=0.0, max_value=1.0, value=0.25)
-w_wgi = st.sidebar.number_input('Governance Indicator (WGI)', min_value=0.0, max_value=1.0, value=0.25)
+w_teu = st.sidebar.number_input('TEU shipments', min_value=0.0, max_value=10.0, value=1.0)
+w_tariff = st.sidebar.number_input('Tariff Rate', min_value=0.0, max_value=10.0, value=1.0)
+w_ship_time = st.sidebar.number_input('Transit Time', min_value=0.0, max_value=10.0, value=1.0)
+w_wgi = st.sidebar.number_input('Governance Indicator (WGI)', min_value=0.0, max_value=10.0, value=1.0)
 
 # --- Filter & Compute ---
 subset = df[(df["hs_code"] == selected_hs_code) & (df["origin_country"] == selected_origin)]
@@ -70,17 +70,33 @@ else:
     alt_scores['Transit Days_n'] = StandardScaler().fit_transform(alt_scores[['Transit Days']])
     alt_scores['WGI average_n'] = StandardScaler().fit_transform(alt_scores[['WGI average']])
 
-    # Weighted score (lower is better)
+    # Weighted score (Higher is better)
+    sum_score = w_teu + w_tariff + w_ship_time + w_wgi
+    user_weights = [w_teu, w_tariff, w_ship_time, w_wgi]
+    norm_weights = [0,0,0,0]
+    for i, w in enumerate(user_weights):
+        norm_weights[i] = w/sum_score
+
     alt_scores["Score"] = (
-        alt_scores["TEU shipments_n"] * w_teu 
-        - alt_scores["Tariff Rate_n"] * w_tariff 
-        - alt_scores["Transit Days_n"] * w_ship_time
-        + alt_scores["WGI average_n"] * w_wgi
+        alt_scores["TEU shipments_n"] * norm_weights[0] 
+        - alt_scores["Tariff Rate_n"] * norm_weights[1] 
+        - alt_scores["Transit Days_n"] * norm_weights[2]
+        + alt_scores["WGI average_n"] * norm_weights[3]
     )*100
 
+    with st.popover("Score calculation"):
+        st.write("The score is calculated through a weighted sum of the z-score normalized values of\
+                  TEU Shipments, Tariff Rate, Transit days and WGI average. \
+                 \nTariff Rate and Transit days are negated to apply \"*Higher is Better*\" for scoring consistency.")
     top_alts = alt_scores[['origin_country','TEU shipments','Tariff Rate','Transit Days','WGI average','Score']].sort_values("Score", ascending=False).head(5)
-    st.dataframe(top_alts)
+    st.dataframe(top_alts, hide_index=True)
 
-    fig = px.bar(top_alts, x="origin_country", y=["TEU shipments", "Tariff Rate", "WGI average", "Transit Days"],
-                 barmode="group", title="Comparison of Alternatives", )
-    st.plotly_chart(fig)
+    st.subheader('Comparison of Alternatives')
+    cola, colb = st.columns(2)
+    cola.bar_chart(top_alts, x='origin_country',y='TEU shipments',horizontal=True, y_label='', color='origin_country')
+    colb.bar_chart(top_alts, x='origin_country',y='Tariff Rate',horizontal=True, y_label='', color='origin_country')
+    cola.bar_chart(top_alts, x='origin_country',y='Transit Days',horizontal=True, y_label='', color='origin_country')
+    colb.bar_chart(top_alts, x='origin_country',y='WGI average',horizontal=True, y_label='', color='origin_country')
+    # fig = px.bar(top_alts, x="origin_country", y=["TEU shipments", "Tariff Rate", "WGI average", "Transit Days"],
+                #  barmode="group", title="Comparison of Alternatives", )
+    # st.plotly_chart(fig)
