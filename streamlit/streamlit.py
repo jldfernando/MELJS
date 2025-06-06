@@ -20,11 +20,13 @@ st.sidebar.header("Current Supply Parameters")
 selected_hs_code = st.sidebar.selectbox("Select HS Code", df["hs_code"].sort_values().unique())
 selected_origin = st.sidebar.selectbox("Select Current Origin Country", df["origin_country"].sort_values().unique())
 base_cost = st.sidebar.number_input("Base cost per TEU", step=100, value=1000)
-st.sidebar.header("Weights for alternative scoring")
-w_teu = st.sidebar.number_input('TEU shipments', min_value=0.0, max_value=10.0, value=1.0)
-w_tariff = st.sidebar.number_input('Tariff Rate', min_value=0.0, max_value=10.0, value=1.0)
-w_ship_time = st.sidebar.number_input('Transit Time', min_value=0.0, max_value=10.0, value=1.0)
-w_wgi = st.sidebar.number_input('Governance Indicator (WGI)', min_value=0.0, max_value=10.0, value=1.0)
+with st.sidebar.form('Weights'):
+    st.header("Weights for alternative scoring")
+    w_teu = st.number_input('TEU shipments', min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+    w_tariff = st.number_input('Tariff Rate', min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+    w_ship_time = st.number_input('Transit Time', min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+    w_wgi = st.number_input('Governance Indicator (WGI)', min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+    submitted = st.form_submit_button("Update Weights")
 
 # --- Filter & Compute ---
 subset = df[(df["hs_code"] == selected_hs_code) & (df["origin_country"] == selected_origin)]
@@ -93,10 +95,10 @@ else:
 
     st.subheader('Comparison of Alternatives')
     cola, colb = st.columns(2)
-    cola.bar_chart(top_alts, x='origin_country',y='TEU shipments',horizontal=True, y_label='', color='origin_country')
-    colb.bar_chart(top_alts, x='origin_country',y='Tariff Rate',horizontal=True, y_label='', color='origin_country')
-    cola.bar_chart(top_alts, x='origin_country',y='Transit Days',horizontal=True, y_label='', color='origin_country')
-    colb.bar_chart(top_alts, x='origin_country',y='WGI average',horizontal=True, y_label='', color='origin_country')
+    cola.bar_chart(top_alts, x='origin_country',y='TEU shipments',horizontal=True, y_label='', color="#0000FF")
+    cola.bar_chart(top_alts, x='origin_country',y='WGI average',horizontal=True, y_label='', color='#0000FF')
+    colb.bar_chart(top_alts, x='origin_country',y='Tariff Rate',horizontal=True, y_label='', color='#FF0000')
+    colb.bar_chart(top_alts, x='origin_country',y='Transit Days',horizontal=True, y_label='', color='#FF0000')
     # fig = px.bar(top_alts, x="origin_country", y=["TEU shipments", "Tariff Rate", "WGI average", "Transit Days"],
                 #  barmode="group", title="Comparison of Alternatives", )
     # st.plotly_chart(fig)
