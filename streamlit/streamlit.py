@@ -49,7 +49,8 @@ else:
     col3.metric("Tariff Rate", f'{tariff_rate*100:.2f}%')
     col1.metric("Transit days", f'{subset['shipping_days'].mean():.1f}')
     col2.metric("Total TEU", f'{subset['TEU'].sum():.2f}')
-    col3.metric("WGI average", 2.4)
+    col3.metric("WGI average", f'{np.mean(subset[['control_corruption', 'govt_effectiveness','pol_stability_absence_violence',
+                                                 'rule_law', 'reg_qual','voice_accountability']].mean()):.2f}')
     col1.metric("Cost with Tariff", f"${estimated_cost:,.2f}", delta=f"${estimated_cost - base_cost:,.2f}")
 
     # --- Alternative Recommendation Logic ---
