@@ -16,7 +16,9 @@ def load_data():
 
 df = load_data()
 
-st.title("Alternative Sourcing Recommendation Engine")
+st.title(":material/finance_mode: :blue[Analogistics]")
+st.subheader("*:orange[Smarter] Supply Chains, :orange[Smarter] Decisions*")
+
 
 # --- Sidebar Inputs ---
 st.sidebar.header("Current Supply Parameters")
