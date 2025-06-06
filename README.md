@@ -5,6 +5,7 @@ MELJS' UA&amp;P x Eskwelabs Hackathon Repository
 1. clone this repository on your local device
 2. install the required libraries on your local python environment
 3. move clean_data.csv into the data folder
+4. run streamlit.py with streamlit
 
 ## Instructions for editing:
 1. Clone this Repository on your local device
