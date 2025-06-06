@@ -5,6 +5,9 @@ import numpy as np
 import plotly.express as px
 from sklearn.preprocessing import StandardScaler
 
+# IMPORTANT: This must be the first Streamlit command in your script
+st.set_page_config(layout="wide")
+
 # Load your dataset (replace with real path if needed)
 @st.cache_data
 def load_data():
@@ -94,11 +97,28 @@ else:
     st.dataframe(top_alts, hide_index=True)
 
     st.subheader('Comparison of Alternatives')
-    cola, colb = st.columns(2)
-    cola.bar_chart(top_alts, x='origin_country',y='TEU shipments',horizontal=True, y_label='', color="#0000FF")
-    cola.bar_chart(top_alts, x='origin_country',y='WGI average',horizontal=True, y_label='', color='#0000FF')
-    colb.bar_chart(top_alts, x='origin_country',y='Tariff Rate',horizontal=True, y_label='', color='#FF0000')
-    colb.bar_chart(top_alts, x='origin_country',y='Transit Days',horizontal=True, y_label='', color='#FF0000')
-    # fig = px.bar(top_alts, x="origin_country", y=["TEU shipments", "Tariff Rate", "WGI average", "Transit Days"],
-                #  barmode="group", title="Comparison of Alternatives", )
-    # st.plotly_chart(fig)
+    colz, cola, colb, colc, cold = st.columns(5)
+    fig_teu = px.bar(top_alts, x='origin_country', y='TEU shipments', title='TEU shipments (+)', color_discrete_sequence=['#2C5F8C'])
+    fig_teu.update_yaxes(title_text='')
+    fig_teu.update_xaxes(title_text='')
+    cola.plotly_chart(fig_teu)
+
+    fig_wgi = px.bar(top_alts, x='origin_country', y='WGI average', title='WGI average (+)', color_discrete_sequence=['#2C5F8C'])
+    fig_wgi.update_yaxes(title_text='')
+    fig_wgi.update_xaxes(title_text='')
+    colb.plotly_chart(fig_wgi)
+
+    fig_tariff = px.bar(top_alts, x='origin_country', y='Tariff Rate', title='Tariff Rate (-)', color_discrete_sequence=['#A60000'])
+    fig_tariff.update_yaxes(title_text='')
+    fig_tariff.update_xaxes(title_text='')
+    colc.plotly_chart(fig_tariff)
+
+    fig_transit = px.bar(top_alts, x='origin_country', y='Transit Days', title='Transit Days (-)', color_discrete_sequence=['#A60000'])
+    fig_transit.update_yaxes(title_text='')
+    fig_transit.update_xaxes(title_text='')
+    cold.plotly_chart(fig_transit)
+
+    fig_score = px.bar(top_alts, x='origin_country', y='Score', title='Score (+)', color_discrete_sequence=['#228B22'])
+    fig_score.update_yaxes(title_text='')
+    fig_score.update_xaxes(title_text='')
+    colz.plotly_chart(fig_score)
